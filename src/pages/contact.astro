@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { SITE } from '../config/site';
+---
+<Base title={`Contact | ${SITE.name}`} description="Get in touch with Pharmacy Business Insights — questions, service enquiries, or partnership requests." noNewsletter>
+  <section class="narrow" style="padding-top:2.5rem;">
+    <span class="eyebrow">Contact</span>
+    <h1>Get in touch</h1>
+    <p style="font-size:1.15rem; color:var(--muted);">
+      Question about an article, want help growing your pharmacy, or a supplier looking to
+      partner? I read and reply to everything personally.
+    </p>
+    <LeadForm subject="Contact form (PBI)" button="Send message" />
+  </section>
+</Base>

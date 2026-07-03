@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import ServiceCta from '../../components/ServiceCta.astro';
+import { getCollection } from 'astro:content';
+import { SITE } from '../../config/site';
+
+const articles = (await getCollection('articles', (a) => a.data.category === 'private-services')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<Base
+  title={`Private Pharmacy Services: The UK Profit Playbook | ${SITE.name}`}
+  description="Which private services actually make money for UK pharmacies? Travel clinics, ear wax removal, weight management and more — with real revenue numbers and launch guides."
+>
+  <section class="narrow" style="padding-top:2.5rem;">
+    <span class="eyebrow">The playbook</span>
+    <h1>Private pharmacy services: the UK profit playbook</h1>
+    <p style="font-size:1.2rem; color:var(--muted);">
+      Dispensing margins keep shrinking. Private services are how UK pharmacies replace that
+      income — some owners add £50,000–£150,000 a year. These guides show you which services
+      to pick, what they really earn, and exactly how to launch and fill them.
+    </p>
+
+    <h2>Start here</h2>
+    <div class="grid" style="grid-template-columns:1fr;">
+      {articles.map((a) => (
+        <a class="card" href={`/private-services/${a.id}/`}>
+          <h3 style="margin-top:0;">{a.data.title}</h3>
+          <p>{a.data.description}</p>
+        </a>
+      ))}
+    </div>
+
+    <ServiceCta
+      heading="Launching a service is step one. Filling it is the hard part."
+      text="Most pharmacies launch a private service, get three bookings a month, and quietly give up. My Bookings Booster service builds the Google presence, booking system and follow-up that keeps your clinic full."
+      href="/services/bookings-booster/"
+      button="See how Bookings Booster works"
+    />
+  </section>
+</Base>

@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import NewsletterBox from '../components/NewsletterBox.astro';
+import { SITE, NEWSLETTER } from '../config/site';
+---
+<Base title={`${NEWSLETTER.headline} | ${SITE.name}`} description={NEWSLETTER.pitch} noNewsletter>
+  <section class="narrow" style="padding-top:2.5rem;">
+    <span class="eyebrow">Free newsletter</span>
+    <h1>{NEWSLETTER.headline}</h1>
+    <p style="font-size:1.2rem; color:var(--muted);">{NEWSLETTER.pitch}</p>
+    <p>Every week you'll get one idea you can act on that same day, like:</p>
+    <ul>
+      <li>The private service quietly making some pharmacies £2,000+ a month</li>
+      <li>A five-minute Google Business Profile fix that gets more calls</li>
+      <li>What AI can actually do for a community pharmacy right now (and what's hype)</li>
+      <li>Real numbers from real UK pharmacies — what worked and what flopped</li>
+    </ul>
+    <NewsletterBox />
+  </section>
+</Base>

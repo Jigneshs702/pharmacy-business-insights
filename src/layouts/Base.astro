@@ -1,0 +1,106 @@
+---
+import '../styles/global.css';
+import { SITE, AUTHOR, NEWSLETTER } from '../config/site';
+import NewsletterBox from '../components/NewsletterBox.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  type?: string;
+  noNewsletter?: boolean;
+  schema?: object | object[];
+}
+
+const { title, description, type = 'website', noNewsletter = false, schema } = Astro.props;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+
+const orgSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE.name,
+  url: SITE.url,
+  founder: { '@type': 'Person', name: AUTHOR.name },
+};
+
+const schemas = [orgSchema, ...(schema ? (Array.isArray(schema) ? schema : [schema]) : [])];
+---
+
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:locale" content={SITE.locale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    {schemas.map((s) => (
+      <script type="application/ld+json" set:html={JSON.stringify(s)} />
+    ))}
+  </head>
+  <body>
+    <header style="border-bottom: 1px solid var(--line);">
+      <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-top:0.9rem; padding-bottom:0.9rem; flex-wrap:wrap;">
+        <a href="/" style="text-decoration:none; color:var(--ink); font-weight:800; font-size:1.2rem; letter-spacing:-0.02em;">
+          <span style="color:var(--accent);">▮</span> {SITE.name}
+        </a>
+        <nav aria-label="Main" style="display:flex; gap:1.4rem; align-items:center; flex-wrap:wrap; font-size:1rem;">
+          <a href="/private-services/" style="text-decoration:none; color:var(--ink); font-weight:600;">Private services</a>
+          <a href="/tools/profit-calculator/" style="text-decoration:none; color:var(--ink); font-weight:600;">Profit calculator</a>
+          <a href="/services/" style="text-decoration:none; color:var(--ink); font-weight:600;">Work with me</a>
+          <a href="/about/" style="text-decoration:none; color:var(--ink); font-weight:600;">About</a>
+          <a href="/newsletter/" class="btn" style="padding:0.5rem 1.1rem; font-size:0.95rem;">Get the newsletter</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    {!noNewsletter && (
+      <div class="narrow" style="padding-bottom:3rem;">
+        <NewsletterBox />
+      </div>
+    )}
+
+    <footer style="border-top:1px solid var(--line); background:var(--bg-soft); margin-top:2rem;">
+      <div class="container" style="padding-top:2.5rem; padding-bottom:2.5rem; display:grid; gap:2rem; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); font-size:0.95rem;">
+        <div>
+          <strong>{SITE.name}</strong>
+          <p class="muted" style="margin-top:0.5rem;">{SITE.tagline}. Written by {AUTHOR.name}, {AUTHOR.credential}.</p>
+        </div>
+        <div>
+          <strong>Learn</strong><br />
+          <a href="/private-services/">Private services playbook</a><br />
+          <a href="/tools/profit-calculator/">Private services profit calculator</a><br />
+          <a href="/newsletter/">{NEWSLETTER.headline}</a>
+        </div>
+        <div>
+          <strong>Work with me</strong><br />
+          <a href="/services/bookings-booster/">Bookings booster</a><br />
+          <a href="/services/google-business-profile/">Google Business Profile optimisation</a><br />
+          <a href="/services/pharmacy-websites/">Pharmacy websites</a><br />
+          <a href="/services/ai-agents/">AI agents for pharmacies</a>
+        </div>
+        <div>
+          <strong>Site</strong><br />
+          <a href="/about/">About</a><br />
+          <a href="/contact/">Contact</a><br />
+          <a href="/editorial-policy/">Editorial policy</a>
+        </div>
+      </div>
+      <div class="container muted small" style="padding-bottom:1.5rem;">
+        © {new Date().getFullYear()} {SITE.name}. Information on this site is general guidance for pharmacy businesses, not financial, legal or clinical advice.
+      </div>
+    </footer>
+  </body>
+</html>

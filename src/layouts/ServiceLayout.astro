@@ -1,0 +1,67 @@
+---
+import Base from './Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import AuthorBox from '../components/AuthorBox.astro';
+import { SITE } from '../config/site';
+
+interface Props {
+  metaTitle: string;
+  metaDescription: string;
+  eyebrow: string;
+  headline: string;
+  subhead: string;
+  problems: string[];
+  steps: { title: string; text: string }[];
+  outcomes: string[];
+  formSubject: string;
+}
+
+const { metaTitle, metaDescription, eyebrow, headline, subhead, problems, steps, outcomes, formSubject } = Astro.props;
+
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: metaTitle,
+  description: metaDescription,
+  provider: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  areaServed: 'GB',
+};
+---
+
+<Base title={`${metaTitle} | ${SITE.name}`} description={metaDescription} schema={serviceSchema} noNewsletter>
+  <section class="narrow" style="padding-top:3rem;">
+    <span class="eyebrow">{eyebrow}</span>
+    <h1>{headline}</h1>
+    <p style="font-size:1.25rem; color:var(--muted);">{subhead}</p>
+    <p><a href="#enquire" class="btn">Get started — free chat, no pressure</a></p>
+
+    <h2>Sound familiar?</h2>
+    <ul>
+      {problems.map((p) => <li>{p}</li>)}
+    </ul>
+
+    <h2>How it works</h2>
+    <ol>
+      {steps.map((s) => (
+        <li style="margin-bottom:1rem;">
+          <strong>{s.title}.</strong> {s.text}
+        </li>
+      ))}
+    </ol>
+
+    <h2>What you get</h2>
+    <ul>
+      {outcomes.map((o) => <li>{o}</li>)}
+    </ul>
+
+    <slot />
+
+    <div class="cta-box" id="enquire">
+      <h3>Tell me about your pharmacy</h3>
+      <p>I'll reply personally with an honest view of whether this will work for you — and if it won't, I'll say so.</p>
+      <LeadForm subject={formSubject} />
+    </div>
+
+    <AuthorBox />
+  </section>
+</Base>

@@ -1,0 +1,35 @@
+---
+import Base from '../../layouts/Base.astro';
+import { SITE, AUTHOR } from '../../config/site';
+---
+<Base
+  title={`Work with me | ${SITE.name}`}
+  description="Done-for-you growth services for UK pharmacies: bookings systems, Google Business Profile optimisation, pharmacy websites and AI agents."
+>
+  <section class="narrow" style="padding-top:2.5rem;">
+    <span class="eyebrow">Work with me</span>
+    <h1>Done-for-you growth for your pharmacy</h1>
+    <p style="font-size:1.2rem; color:var(--muted);">
+      The articles on this site tell you exactly what to do. If you'd rather have it done for
+      you, that's what I do all day — for UK pharmacies only. I'm {AUTHOR.name}, {AUTHOR.credential}.
+    </p>
+    <div class="grid" style="margin-top:2rem;">
+      <a class="card" href="/services/bookings-booster/">
+        <h3 style="margin-top:0;">Bookings booster</h3>
+        <p>A complete system that fills your private clinics — visibility, booking flow and follow-up.</p>
+      </a>
+      <a class="card" href="/services/google-business-profile/">
+        <h3 style="margin-top:0;">Google Business Profile optimisation</h3>
+        <p>Win the local searches that happen before every walk-in and every booking.</p>
+      </a>
+      <a class="card" href="/services/pharmacy-websites/">
+        <h3 style="margin-top:0;">Pharmacy websites</h3>
+        <p>A fast, modern website that ranks locally and turns visitors into booked patients.</p>
+      </a>
+      <a class="card" href="/services/ai-agents/">
+        <h3 style="margin-top:0;">AI agents for pharmacies</h3>
+        <p>AI that answers patient questions, takes bookings and chases follow-ups around the clock.</p>
+      </a>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import NewsletterBox from '../components/NewsletterBox.astro';
+import { getCollection } from 'astro:content';
+import { SITE, AUTHOR } from '../config/site';
+
+const articles = (await getCollection('articles')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const featured = articles.slice(0, 6);
+---
+
+<Base
+  title={`${SITE.name} — ${SITE.tagline}`}
+  description="Practical, numbers-led guides that help UK pharmacy owners add private services, win more patients and automate their pharmacy. Written by a pharmacy growth specialist."
+  noNewsletter
+>
+  <section style="padding:4rem 0 3rem;">
+    <div class="container" style="max-width:820px;">
+      <span class="eyebrow">For UK pharmacy owners &amp; managers</span>
+      <h1>Your pharmacy should be making more money. Let's fix that.</h1>
+      <p style="font-size:1.3rem; color:var(--muted); max-width:640px;">
+        Practical, numbers-led playbooks on private services, marketing and AI — written from
+        real work with UK pharmacies, not recycled press releases.
+      </p>
+      <div style="display:flex; gap:0.9rem; flex-wrap:wrap; margin-top:1.5rem;">
+        <a href="/private-services/" class="btn">Start with private services</a>
+        <a href="/tools/profit-calculator/" class="btn btn-outline">Try the profit calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="background:var(--bg-soft); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:3rem 0;">
+    <div class="container">
+      <h2 style="margin-top:0;">What do you want to do?</h2>
+      <div class="grid">
+        <a class="card" href="/private-services/">
+          <span class="eyebrow">Revenue engine</span>
+          <h3>Add a profitable private service</h3>
+          <p>Travel clinics, ear wax removal, weight management — what they really make and how to launch them.</p>
+        </a>
+        <a class="card" href="/services/bookings-booster/">
+          <span class="eyebrow">More patients</span>
+          <h3>Fill your clinic with bookings</h3>
+          <p>Get found on Google and turn searches into booked, paying appointments.</p>
+        </a>
+        <a class="card" href="/services/ai-agents/">
+          <span class="eyebrow">Automation</span>
+          <h3>Put AI to work in your pharmacy</h3>
+          <p>AI agents that answer calls, chase follow-ups and take bookings while you dispense.</p>
+        </a>
+        <a class="card" href="/tools/profit-calculator/">
+          <span class="eyebrow">Free tool</span>
+          <h3>See your profit potential</h3>
+          <p>Pick your services, enter your numbers, and see what private income you're leaving on the table.</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:3rem 0;">
+    <div class="container">
+      <h2 style="margin-top:0;">Latest playbooks</h2>
+      <div class="grid">
+        {featured.map((a) => (
+          <a class="card" href={`/${a.data.category}/${a.id}/`}>
+            <span class="eyebrow">{a.data.categoryTitle}</span>
+            <h3>{a.data.title}</h3>
+            <p>{a.data.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section style="padding:1rem 0 3rem;">
+    <div class="container" style="max-width:820px;">
+      <h2>Who writes this?</h2>
+      <p>
+        I'm <a href="/about/">{AUTHOR.name}</a>, {AUTHOR.credential}. {AUTHOR.bio}
+      </p>
+      <NewsletterBox />
+    </div>
+  </section>
+</Base>

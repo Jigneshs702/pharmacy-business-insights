@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, AUTHOR } from '../config/site';
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: AUTHOR.name,
+  description: AUTHOR.credential,
+  url: new URL('/about/', SITE.url).href,
+  worksFor: { '@type': 'Organization', name: SITE.name },
+};
+---
+<Base
+  title={`About ${AUTHOR.name} | ${SITE.name}`}
+  description={`${SITE.name} is written by ${AUTHOR.name}, ${AUTHOR.credential}, helping UK pharmacy owners build more profitable businesses.`}
+  schema={personSchema}
+>
+  <section class="narrow" style="padding-top:2.5rem;">
+    <span class="eyebrow">About</span>
+    <h1>Why this site exists</h1>
+    <p style="font-size:1.2rem; color:var(--muted);">
+      UK community pharmacy is brutal right now: shrinking dispensing margins, funding pressure,
+      and closures every month. But some pharmacies are quietly thriving — because they treat the
+      pharmacy as a business, not just a dispensary.
+    </p>
+    <p>
+      {SITE.name} exists to show you how they do it. Every article is practical, specific to the
+      UK, and focused on one thing: helping your pharmacy make more money — through private
+      services, better marketing, and smart use of AI and automation.
+    </p>
+    <h2>Who I am</h2>
+    <p>
+      I'm {AUTHOR.name}, {AUTHOR.credential}. {AUTHOR.bio}
+    </p>
+    <p>
+      Alongside writing, I run <a href="/services/">done-for-you growth services</a> for UK
+      pharmacies — which means everything I publish is tested on real pharmacies first, not
+      theorised from a desk.
+    </p>
+    <h2>How this site makes money (full transparency)</h2>
+    <p>
+      Two ways: pharmacy owners hire me for <a href="/services/">my services</a>, and some
+      articles recommend suppliers or training providers who may pay a referral fee. That never
+      changes what I recommend — my <a href="/editorial-policy/">editorial policy</a> explains
+      the rules I follow.
+    </p>
+    <p><a href="/contact/" class="btn">Get in touch</a></p>
+  </section>
+</Base>

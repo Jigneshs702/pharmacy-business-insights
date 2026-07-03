@@ -1,0 +1,85 @@
+---
+import Base from './Base.astro';
+import AuthorBox from '../components/AuthorBox.astro';
+import ServiceCta from '../components/ServiceCta.astro';
+import { SITE, AUTHOR } from '../config/site';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  entry: CollectionEntry<'articles'>;
+}
+
+const { entry } = Astro.props;
+const { title, description, category, categoryTitle, pubDate, updatedDate, faqs, cta } = entry.data;
+const canonical = new URL(Astro.url.pathname, SITE.url).href;
+
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: { '@type': 'Person', name: AUTHOR.name, description: AUTHOR.credential },
+  publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+  mainEntityOfPage: canonical,
+};
+
+const breadcrumbSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: SITE.url },
+    { '@type': 'ListItem', position: 2, name: categoryTitle, item: new URL(`/${category}/`, SITE.url).href },
+    { '@type': 'ListItem', position: 3, name: title, item: canonical },
+  ],
+};
+
+const faqSchema = faqs?.length
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+      })),
+    }
+  : null;
+
+const schemas = [articleSchema, breadcrumbSchema, ...(faqSchema ? [faqSchema] : [])];
+
+const dateFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base title={`${title} | ${SITE.name}`} description={description} type="article" schema={schemas}>
+  <article class="narrow" style="padding-top:2.5rem;">
+    <nav aria-label="Breadcrumb" class="small muted" style="margin-bottom:1rem;">
+      <a href="/">Home</a> › <a href={`/${category}/`}>{categoryTitle}</a>
+    </nav>
+    <h1>{title}</h1>
+    <p class="muted" style="margin-bottom:2rem;">
+      By <a href="/about/">{AUTHOR.name}</a>, {AUTHOR.credential} ·
+      {updatedDate ? `Updated ${dateFmt.format(updatedDate)}` : dateFmt.format(pubDate)}
+    </p>
+    <div class="article-body">
+      <slot />
+    </div>
+
+    {faqs?.length ? (
+      <section>
+        <h2>Frequently asked questions</h2>
+        {faqs.map((f) => (
+          <div style="margin-bottom:1.25rem;">
+            <h3 style="margin:0 0 0.3rem; font-size:1.1rem;">{f.q}</h3>
+            <p style="margin:0;" class="muted">{f.a}</p>
+          </div>
+        ))}
+      </section>
+    ) : null}
+
+    {cta ? <ServiceCta {...cta} /> : null}
+
+    <AuthorBox />
+  </article>
+</Base>

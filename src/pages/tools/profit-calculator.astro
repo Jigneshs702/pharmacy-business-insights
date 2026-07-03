@@ -1,0 +1,88 @@
+---
+import Base from '../../layouts/Base.astro';
+import ServiceCta from '../../components/ServiceCta.astro';
+import { SITE } from '../../config/site';
+---
+<Base
+  title={`Private Services Profit Calculator for UK Pharmacies | ${SITE.name}`}
+  description="Free calculator: pick the private services your pharmacy could offer, enter a few numbers, and see the annual revenue you're leaving on the table."
+>
+  <section class="narrow" style="padding-top:2.5rem;">
+    <span class="eyebrow">Free tool</span>
+    <h1>Private services profit calculator</h1>
+    <p style="font-size:1.15rem; color:var(--muted);">
+      Tick the services you could realistically offer, adjust the weekly appointments, and see
+      what a year of private income looks like. Figures use typical UK pharmacy pricing — edit
+      the price to match your area.
+    </p>
+
+    <div id="calc" style="border:1px solid var(--line); border-radius:12px; padding:1.5rem; margin:2rem 0;">
+      <div id="rows"></div>
+      <div style="display:flex; justify-content:space-between; align-items:baseline; border-top:2px solid var(--ink); margin-top:1rem; padding-top:1rem; flex-wrap:wrap; gap:0.5rem;">
+        <strong style="font-size:1.15rem;">Potential annual private revenue</strong>
+        <strong style="font-size:2rem; color:var(--accent-dark);" id="total">£0</strong>
+      </div>
+      <p class="muted small" style="margin:0.75rem 0 0;">
+        Assumes 48 trading weeks. Revenue, not profit — typical gross margins on these services
+        run 60–90% once set up. Illustrative only.
+      </p>
+    </div>
+
+    <ServiceCta
+      heading="Like that number? Let's make it real."
+      text="The gap between this calculator and your bank account is bookings. My Bookings Booster service builds the Google visibility and booking system that fills these clinics."
+      href="/services/bookings-booster/"
+      button="See how Bookings Booster works"
+    />
+  </section>
+
+  <script>
+    const services = [
+      { name: 'Travel clinic (per patient course)', price: 120, perWeek: 5, on: true },
+      { name: 'Ear wax removal (both ears)', price: 60, perWeek: 6, on: true },
+      { name: 'Weight management (monthly plan)', price: 199, perWeek: 3, on: false },
+      { name: 'Flu jab (private)', price: 20, perWeek: 10, on: false },
+      { name: 'Vitamin B12 injection', price: 35, perWeek: 4, on: false },
+      { name: 'Blood pressure / health MOT', price: 45, perWeek: 4, on: false },
+      { name: 'Emergency contraception consult', price: 30, perWeek: 3, on: false },
+    ];
+
+    const rows = document.getElementById('rows')!;
+    const totalEl = document.getElementById('total')!;
+    const gbp = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
+
+    function recalc() {
+      let total = 0;
+      rows.querySelectorAll('[data-row]').forEach((row) => {
+        const on = (row.querySelector('[data-on]') as HTMLInputElement).checked;
+        const price = parseFloat((row.querySelector('[data-price]') as HTMLInputElement).value) || 0;
+        const perWeek = parseFloat((row.querySelector('[data-week]') as HTMLInputElement).value) || 0;
+        const annual = on ? price * perWeek * 48 : 0;
+        (row.querySelector('[data-annual]') as HTMLElement).textContent = on ? gbp.format(annual) : '—';
+        total += annual;
+      });
+      totalEl.textContent = gbp.format(total);
+    }
+
+    services.forEach((s) => {
+      const row = document.createElement('div');
+      row.setAttribute('data-row', '');
+      row.style.cssText = 'display:grid; grid-template-columns: auto 1fr 90px 70px 100px; gap:0.6rem; align-items:center; padding:0.6rem 0; border-bottom:1px solid var(--line); font-size:0.98rem;';
+      row.innerHTML = `
+        <input type="checkbox" data-on ${s.on ? 'checked' : ''} style="width:20px; height:20px;" aria-label="Include ${s.name}">
+        <span>${s.name}</span>
+        <input type="number" data-price value="${s.price}" min="0" step="5" style="padding:0.4rem;" aria-label="Price in pounds">
+        <input type="number" data-week value="${s.perWeek}" min="0" style="padding:0.4rem;" aria-label="Appointments per week">
+        <strong data-annual style="text-align:right;"></strong>`;
+      rows.appendChild(row);
+    });
+
+    const header = document.createElement('div');
+    header.style.cssText = 'display:grid; grid-template-columns: auto 1fr 90px 70px 100px; gap:0.6rem; font-size:0.8rem; color:var(--faint); font-weight:700; text-transform:uppercase; letter-spacing:0.05em; padding-bottom:0.4rem;';
+    header.innerHTML = '<span></span><span>Service</span><span>Price £</span><span>Per wk</span><span style="text-align:right;">Per year</span>';
+    rows.prepend(header);
+
+    rows.addEventListener('input', recalc);
+    recalc();
+  </script>
+</Base>

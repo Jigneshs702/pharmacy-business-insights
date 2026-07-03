@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE, AUTHOR } from '../config/site';
+---
+<Base title={`Editorial policy | ${SITE.name}`} description="How Pharmacy Business Insights researches articles, handles commercial relationships and keeps recommendations honest.">
+  <section class="narrow" style="padding-top:2.5rem;">
+    <span class="eyebrow">Editorial policy</span>
+    <h1>How this site stays honest</h1>
+    <p>Every article on {SITE.name} is written or reviewed by {AUTHOR.name}, {AUTHOR.credential}.</p>
+    <h2>Our rules</h2>
+    <ul>
+      <li><strong>UK-specific.</strong> Everything is written for UK community pharmacy — regulations, pricing and services reflect the UK market.</li>
+      <li><strong>Numbers are labelled.</strong> Revenue and profit figures are clearly marked as typical ranges or illustrative examples. Your results depend on your location, footfall and execution.</li>
+      <li><strong>Commercial relationships are disclosed.</strong> Where an article recommends a supplier, training provider or tool that pays us a referral fee, the article says so. Fees never determine rankings or recommendations.</li>
+      <li><strong>Our own services are clearly ours.</strong> Pages and links promoting our services are labelled as such.</li>
+      <li><strong>Not professional advice.</strong> Content is general business guidance, not financial, legal or clinical advice. Speak to your accountant, solicitor or professional body before major decisions.</li>
+      <li><strong>Corrections.</strong> Spotted an error? <a href="/contact/">Tell us</a> and we'll fix it and note the update.</li>
+    </ul>
+  </section>
+</Base>
