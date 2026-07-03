@@ -35,6 +35,9 @@ const schemas = [orgSchema, ...(schema ? (Array.isArray(schema) ? schema : [sche
     <link rel="canonical" href={canonical} />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content={type} />
@@ -47,17 +50,17 @@ const schemas = [orgSchema, ...(schema ? (Array.isArray(schema) ? schema : [sche
     ))}
   </head>
   <body>
-    <header style="border-bottom: 1px solid var(--line);">
-      <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-top:0.9rem; padding-bottom:0.9rem; flex-wrap:wrap;">
-        <a href="/" style="text-decoration:none; color:var(--ink); font-weight:800; font-size:1.2rem; letter-spacing:-0.02em;">
-          <span style="color:var(--accent);">▮</span> {SITE.name}
+    <header style="border-bottom:1px solid var(--blue-100); background:#fff; position:sticky; top:0; z-index:50;">
+      <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-top:1rem; padding-bottom:1rem; flex-wrap:wrap;">
+        <a href="/" style="text-decoration:none; font-weight:800; font-size:1.35rem; letter-spacing:-0.03em; white-space:nowrap;">
+          <span style="color:var(--blue);">Pharmacy Business</span> <span style="color:var(--yellow-dark);">Insights</span>
         </a>
-        <nav aria-label="Main" style="display:flex; gap:1.4rem; align-items:center; flex-wrap:wrap; font-size:1rem;">
-          <a href="/private-services/" style="text-decoration:none; color:var(--ink); font-weight:600;">Private services</a>
-          <a href="/tools/profit-calculator/" style="text-decoration:none; color:var(--ink); font-weight:600;">Profit calculator</a>
-          <a href="/services/" style="text-decoration:none; color:var(--ink); font-weight:600;">Work with me</a>
-          <a href="/about/" style="text-decoration:none; color:var(--ink); font-weight:600;">About</a>
-          <a href="/newsletter/" class="btn" style="padding:0.5rem 1.1rem; font-size:0.95rem;">Get the newsletter</a>
+        <nav aria-label="Main" style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap; font-size:1rem;">
+          <a href="/private-services/" style="text-decoration:none; color:var(--muted); font-weight:600;">Private services</a>
+          <a href="/tools/profit-calculator/" style="text-decoration:none; color:var(--muted); font-weight:600;">Profit calculator</a>
+          <a href="/services/" style="text-decoration:none; color:var(--muted); font-weight:600;">Work with me</a>
+          <a href="/about/" style="text-decoration:none; color:var(--muted); font-weight:600;">About</a>
+          <a href="/newsletter/" class="btn" style="padding:0.55rem 1.2rem; font-size:0.95rem;">Get the newsletter</a>
         </nav>
       </div>
     </header>
@@ -67,38 +70,40 @@ const schemas = [orgSchema, ...(schema ? (Array.isArray(schema) ? schema : [sche
     </main>
 
     {!noNewsletter && (
-      <div class="narrow" style="padding-bottom:3rem;">
+      <div class="narrow" style="padding-bottom:3.5rem;">
         <NewsletterBox />
       </div>
     )}
 
-    <footer style="border-top:1px solid var(--line); background:var(--bg-soft); margin-top:2rem;">
-      <div class="container" style="padding-top:2.5rem; padding-bottom:2.5rem; display:grid; gap:2rem; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); font-size:0.95rem;">
+    <footer class="section-navy" style="margin-top:0;">
+      <div class="container" style="padding-top:3rem; padding-bottom:2.5rem; display:grid; gap:2rem; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); font-size:0.95rem;">
         <div>
-          <strong>{SITE.name}</strong>
-          <p class="muted" style="margin-top:0.5rem;">{SITE.tagline}. Written by {AUTHOR.name}, {AUTHOR.credential}.</p>
+          <span style="font-weight:800; font-size:1.15rem; letter-spacing:-0.02em;">
+            <span style="color:#7dd3fc;">Pharmacy Business</span> <span style="color:var(--yellow);">Insights</span>
+          </span>
+          <p style="color:#94a3b8; margin-top:0.6rem;">{SITE.tagline}. Written by {AUTHOR.name}, {AUTHOR.credential}.</p>
         </div>
         <div>
-          <strong>Learn</strong><br />
-          <a href="/private-services/">Private services playbook</a><br />
-          <a href="/tools/profit-calculator/">Private services profit calculator</a><br />
-          <a href="/newsletter/">{NEWSLETTER.headline}</a>
+          <strong style="color:#fff;">Learn</strong><br />
+          <a href="/private-services/" style="color:#bae6fd;">Private services playbook</a><br />
+          <a href="/tools/profit-calculator/" style="color:#bae6fd;">Profit calculator</a><br />
+          <a href="/newsletter/" style="color:#bae6fd;">{NEWSLETTER.headline}</a>
         </div>
         <div>
-          <strong>Work with me</strong><br />
-          <a href="/services/bookings-booster/">Bookings booster</a><br />
-          <a href="/services/google-business-profile/">Google Business Profile optimisation</a><br />
-          <a href="/services/pharmacy-websites/">Pharmacy websites</a><br />
-          <a href="/services/ai-agents/">AI agents for pharmacies</a>
+          <strong style="color:#fff;">Work with me</strong><br />
+          <a href="/services/bookings-booster/" style="color:#bae6fd;">Bookings booster</a><br />
+          <a href="/services/google-business-profile/" style="color:#bae6fd;">Google Business Profile</a><br />
+          <a href="/services/pharmacy-websites/" style="color:#bae6fd;">Pharmacy websites</a><br />
+          <a href="/services/ai-agents/" style="color:#bae6fd;">AI agents</a>
         </div>
         <div>
-          <strong>Site</strong><br />
-          <a href="/about/">About</a><br />
-          <a href="/contact/">Contact</a><br />
-          <a href="/editorial-policy/">Editorial policy</a>
+          <strong style="color:#fff;">Site</strong><br />
+          <a href="/about/" style="color:#bae6fd;">About</a><br />
+          <a href="/contact/" style="color:#bae6fd;">Contact</a><br />
+          <a href="/editorial-policy/" style="color:#bae6fd;">Editorial policy</a>
         </div>
       </div>
-      <div class="container muted small" style="padding-bottom:1.5rem;">
+      <div class="container small" style="padding-bottom:1.75rem; color:#64748b;">
         © {new Date().getFullYear()} {SITE.name}. Information on this site is general guidance for pharmacy businesses, not financial, legal or clinical advice.
       </div>
     </footer>

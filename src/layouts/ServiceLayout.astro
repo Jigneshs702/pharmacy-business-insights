@@ -29,29 +29,37 @@ const serviceSchema = {
 ---
 
 <Base title={`${metaTitle} | ${SITE.name}`} description={metaDescription} schema={serviceSchema} noNewsletter>
-  <section class="narrow" style="padding-top:3rem;">
-    <span class="eyebrow">{eyebrow}</span>
-    <h1>{headline}</h1>
-    <p style="font-size:1.25rem; color:var(--muted);">{subhead}</p>
-    <p><a href="#enquire" class="btn">Get started — free chat, no pressure</a></p>
+  <section class="section section-blue" style="text-align:center;">
+    <div class="container" style="max-width:860px;">
+      <span class="pill">{eyebrow}</span>
+      <h1>{headline}</h1>
+      <p style="font-size:1.3rem; color:var(--muted); max-width:680px; margin:0 auto 2rem;">{subhead}</p>
+      <a href="#enquire" class="btn" style="font-size:1.1rem;">Get started — free chat, no pressure</a>
+    </div>
+  </section>
 
+  <section class="narrow" style="padding-top:1rem;">
     <h2>Sound familiar?</h2>
     <ul>
-      {problems.map((p) => <li>{p}</li>)}
+      {problems.map((p) => <li style="margin-bottom:0.5rem;">{p}</li>)}
     </ul>
 
     <h2>How it works</h2>
-    <ol>
-      {steps.map((s) => (
-        <li style="margin-bottom:1rem;">
-          <strong>{s.title}.</strong> {s.text}
-        </li>
+    <div style="display:grid; gap:1.25rem; margin:1.5rem 0 1rem;">
+      {steps.map((s, i) => (
+        <div style="display:flex; gap:1.25rem; align-items:flex-start; border:1px solid var(--blue-100); border-radius:20px; padding:1.5rem; background:#fff; box-shadow:0 4px 14px -6px rgba(2,6,23,0.08);">
+          <span style="font-size:2rem; font-weight:800; color:var(--blue); letter-spacing:-0.03em; line-height:1; flex-shrink:0;">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <strong style="color:var(--navy); font-size:1.1rem;">{s.title}</strong>
+            <p style="margin:0.35rem 0 0; color:var(--muted);">{s.text}</p>
+          </div>
+        </div>
       ))}
-    </ol>
+    </div>
 
     <h2>What you get</h2>
     <ul>
-      {outcomes.map((o) => <li>{o}</li>)}
+      {outcomes.map((o) => <li style="margin-bottom:0.5rem;">{o}</li>)}
     </ul>
 
     <slot />
