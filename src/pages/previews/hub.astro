@@ -1,0 +1,108 @@
+---
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const index = articles.map((a) => ({ t: a.data.title, d: a.data.description, u: `/${a.data.category}/${a.id}/`, c: a.data.categoryTitle }));
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>The Hub — homepage concept 2 | PBI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root { --navy:#0f172a; --line:#e2e8f0; --muted:#64748b; --faint:#94a3b8; --blue:#0284c7; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,-apple-system,sans-serif; color:var(--navy); background:#fff; line-height:1.6; }
+    .wrap { max-width:1040px; margin:0 auto; padding:0 1.5rem; }
+    a { text-decoration:none; color:inherit; }
+    .tile { border:1px solid var(--line); border-radius:14px; padding:1.25rem; transition:border-color .15s, transform .15s; display:block; }
+    .tile:hover { border-color:var(--navy); transform:translateY(-2px); }
+    .result { border-bottom:1px solid var(--line); padding:1rem 0; display:block; }
+    .result:hover .rt { color:var(--blue); }
+    #q { width:100%; max-width:560px; font:inherit; font-size:1.05rem; padding:1rem 1.3rem; border:none; border-radius:12px; outline:none; }
+  </style>
+</head>
+<body>
+  <header class="wrap" style="display:flex; justify-content:space-between; align-items:center; padding-top:1.1rem; padding-bottom:1.1rem;">
+    <span style="font-weight:700; font-size:1.05rem;">PBI <span style="color:var(--faint); font-weight:400;">/ the pharmacy knowledge hub</span></span>
+    <nav style="display:flex; gap:1.5rem; font-size:0.92rem; color:var(--muted); font-weight:500;">
+      <a href="/private-services/">Playbooks</a>
+      <a href="/tools/profit-calculator/">Tools</a>
+      <a href="/services/">Done-for-you</a>
+      <a href="/newsletter/" style="color:var(--navy); font-weight:600;">Newsletter →</a>
+    </nav>
+  </header>
+
+  <section style="background:var(--navy); padding:4.5rem 1.5rem; text-align:center;">
+    <h1 style="color:#fff; font-size:clamp(1.7rem,4vw,2.5rem); letter-spacing:-0.03em; margin:0 0 0.6rem; font-weight:700;">Every way a UK pharmacy makes money.<br />In one place.</h1>
+    <p style="color:var(--faint); margin:0 auto 1.8rem; max-width:480px;">Search the playbooks, or browse by what you want to grow.</p>
+    <input id="q" type="search" placeholder='Try "ear wax", "travel clinic", "bookings"…' autocomplete="off" />
+    <div style="color:#475569; font-size:0.82rem; margin-top:1rem;">{index.length} playbooks · 1 free tool · updated weekly · no fluff</div>
+  </section>
+
+  <main class="wrap">
+    <div id="results" style="display:none; padding-top:1.5rem; max-width:640px; margin:0 auto;"></div>
+
+    <div id="browse">
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:1rem; margin-top:-1.9rem;">
+        <a class="tile" href="/private-services/" style="background:#fff;">
+          <div style="font-weight:600;">💰 Private services</div>
+          <div style="color:var(--muted); font-size:0.88rem; margin-top:0.3rem;">Travel, ear wax, weight management — with real numbers</div>
+          <div style="color:var(--faint); font-size:0.8rem; margin-top:0.6rem;">7 playbooks →</div>
+        </a>
+        <a class="tile" href="/services/bookings-booster/" style="background:#fff;">
+          <div style="font-weight:600;">📈 Getting booked</div>
+          <div style="color:var(--muted); font-size:0.88rem; margin-top:0.3rem;">Google visibility, reviews, recalls and conversion</div>
+          <div style="color:var(--faint); font-size:0.8rem; margin-top:0.6rem;">The system →</div>
+        </a>
+        <a class="tile" href="/services/ai-agents/" style="background:#fff;">
+          <div style="font-weight:600;">🧠 AI &amp; automation</div>
+          <div style="color:var(--muted); font-size:0.88rem; margin-top:0.3rem;">Agents that answer, book and follow up 24/7</div>
+          <div style="color:var(--faint); font-size:0.8rem; margin-top:0.6rem;">What works →</div>
+        </a>
+        <a class="tile" href="/tools/profit-calculator/" style="background:#fff;">
+          <div style="font-weight:600;">🧮 Profit calculator</div>
+          <div style="color:var(--muted); font-size:0.88rem; margin-top:0.3rem;">Model your private-services income in 30 seconds</div>
+          <div style="color:var(--faint); font-size:0.8rem; margin-top:0.6rem;">Free tool →</div>
+        </a>
+      </div>
+
+      <h2 style="font-size:1.15rem; letter-spacing:-0.01em; margin:3rem 0 0.5rem;">Latest playbooks</h2>
+      <div style="max-width:720px;">
+        {index.slice(0, 5).map((a) => (
+          <a class="result" href={a.u}>
+            <span style="font-size:0.72rem; font-weight:600; color:var(--blue); text-transform:uppercase; letter-spacing:0.06em;">{a.c}</span>
+            <div class="rt" style="font-weight:600; margin-top:0.15rem;">{a.t}</div>
+            <div style="color:var(--muted); font-size:0.9rem; margin-top:0.15rem;">{a.d}</div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+
+  <footer class="wrap" style="padding:2.5rem 1.5rem; color:var(--faint); font-size:0.85rem; display:flex; justify-content:space-between;">
+    <span>© 2026 Pharmacy Business Insights</span>
+    <a href="/previews/" style="color:var(--blue);">← All six concepts</a>
+  </footer>
+
+  <script define:vars={{ index }}>
+    const q = document.getElementById('q');
+    const results = document.getElementById('results');
+    const browse = document.getElementById('browse');
+    q.addEventListener('input', () => {
+      const term = q.value.trim().toLowerCase();
+      if (!term) { results.style.display = 'none'; browse.style.display = 'block'; return; }
+      const hits = index.filter((a) => (a.t + ' ' + a.d).toLowerCase().includes(term));
+      browse.style.display = 'none';
+      results.style.display = 'block';
+      results.innerHTML = hits.length
+        ? hits.map((a) => `<a class="result" href="${a.u}"><span style="font-size:0.72rem;font-weight:600;color:#0284c7;text-transform:uppercase;letter-spacing:0.06em;">${a.c}</span><div class="rt" style="font-weight:600;margin-top:0.15rem;">${a.t}</div><div style="color:#64748b;font-size:0.9rem;margin-top:0.15rem;">${a.d}</div></a>`).join('')
+        : '<p style="color:#64748b;">Nothing yet for that — <a href="/contact/" style="color:#0284c7;">tell me what to write</a>.</p>';
+    });
+  </script>
+</body>
+</html>

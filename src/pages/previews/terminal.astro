@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const lead = articles[0];
+const grid = articles.slice(1, 7);
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>The Terminal — homepage concept 4 | PBI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root { --navy:#0f172a; --line:#e2e8f0; --muted:#64748b; --blue:#0284c7; --bluebg:#e0f2fe; --up:#16a34a; --down:#dc2626; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:Inter,-apple-system,sans-serif; color:var(--navy); background:#fff; line-height:1.55; }
+    .wrap { max-width:1120px; margin:0 auto; padding:0 1.5rem; }
+    a { text-decoration:none; color:inherit; }
+    .mono { font-family:ui-monospace,'Cascadia Code',Consolas,monospace; }
+    .tag { font-size:0.68rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:var(--blue); }
+    .story:hover .st { color:var(--blue); }
+    .ticker-track { display:inline-flex; gap:2.5rem; padding-left:100%; animation:tick 30s linear infinite; white-space:nowrap; }
+    @keyframes tick { to { transform:translateX(-100%); } }
+    .btn { display:inline-block; background:var(--navy); color:#fff; font-weight:700; font-size:0.9rem; padding:0.7rem 1.4rem; border-radius:4px; }
+    .btn:hover { background:#020617; }
+  </style>
+</head>
+<body>
+  <div style="background:var(--navy); overflow:hidden; padding:0.45rem 0;" aria-hidden="true">
+    <div class="ticker-track mono" style="font-size:0.75rem; color:#94a3b8;">
+      <span>EAR WAX (BOTH EARS) <b style="color:#4ade80;">£60 ▲</b></span>
+      <span>TRAVEL BASKET AVG <b style="color:#4ade80;">£110 ▲</b></span>
+      <span>GLP-1 PLAN <b style="color:#4ade80;">£199/MO ▲▲</b></span>
+      <span>NHS DISPENSING MARGIN <b style="color:#f87171;">▼</b></span>
+      <span>B12 REPEAT CYCLE <b style="color:#4ade80;">12 WKS ●</b></span>
+      <span>MISSED CALLS = MISSED BOOKINGS <b style="color:#f87171;">FIX ▼</b></span>
+      <span>"EAR WAX REMOVAL NEAR ME" <b style="color:#4ade80;">DAILY DEMAND ▲</b></span>
+    </div>
+  </div>
+
+  <header class="wrap" style="display:flex; justify-content:space-between; align-items:center; padding-top:1rem; padding-bottom:1rem; border-bottom:2px solid var(--navy);">
+    <span style="font-weight:800; font-size:1.3rem; letter-spacing:-0.03em;">PBI<span style="color:var(--blue);">.</span> <span style="font-weight:500; color:var(--muted); font-size:0.85rem;">The pharmacy profit briefing</span></span>
+    <nav style="display:flex; gap:1.4rem; align-items:center; font-size:0.9rem; font-weight:600; color:var(--muted);">
+      <a href="/private-services/">Briefings</a>
+      <a href="/tools/profit-calculator/">Calculator</a>
+      <a href="/services/">Execution desk</a>
+      <a href="/newsletter/" class="btn" style="font-size:0.82rem; padding:0.5rem 1rem;">GET THE BRIEFING</a>
+    </nav>
+  </header>
+
+  <main class="wrap" style="display:grid; grid-template-columns:2fr 1fr; gap:2rem; padding-top:1.8rem;">
+    <section style="border-right:1px solid var(--line); padding-right:2rem;">
+      <span style="font-size:0.68rem; font-weight:700; letter-spacing:0.08em; background:var(--bluebg); color:var(--blue); padding:0.25rem 0.6rem; border-radius:3px;">LEAD STORY</span>
+      <a class="story" href={`/${lead.data.category}/${lead.id}/`}>
+        <h1 class="st" style="font-size:clamp(1.6rem,3.4vw,2.3rem); line-height:1.15; letter-spacing:-0.025em; margin:0.7rem 0 0.6rem; font-weight:800;">{lead.data.title}</h1>
+      </a>
+      <p style="color:var(--muted); font-size:1.05rem; margin:0 0 1.5rem;">{lead.data.description}</p>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.4rem; border-top:1px solid var(--line); padding-top:1.4rem;">
+        {grid.slice(0, 4).map((a) => (
+          <a class="story" href={`/${a.data.category}/${a.id}/`}>
+            <span class="tag">{a.data.categoryTitle}</span>
+            <h3 class="st" style="font-size:1.02rem; line-height:1.3; margin:0.3rem 0 0.25rem; font-weight:700;">{a.data.title}</h3>
+            <p style="color:var(--muted); font-size:0.85rem; margin:0;">{a.data.description.slice(0, 85)}…</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <aside>
+      <div style="border:1px solid var(--line); border-radius:6px; overflow:hidden;">
+        <div class="mono" style="background:var(--navy); color:#4ade80; font-size:0.72rem; padding:0.5rem 1rem;">MODEL YOUR PHARMACY ›</div>
+        <div style="padding:1.2rem;">
+          <div class="mono" style="font-size:1.9rem; font-weight:700; letter-spacing:-0.03em;">£74,880<span style="color:var(--up); font-size:0.9rem;"> /yr ▲</span></div>
+          <p style="color:var(--muted); font-size:0.85rem; margin:0.4rem 0 0.9rem;">Example: travel ×10/wk + ear wax ×6/wk. Run your own numbers.</p>
+          <a class="btn" href="/tools/profit-calculator/" style="width:100%; text-align:center;">Open calculator</a>
+        </div>
+      </div>
+
+      <div style="margin-top:1.4rem;">
+        <div class="mono" style="font-size:0.72rem; color:var(--muted); border-bottom:2px solid var(--navy); padding-bottom:0.4rem;">MOST ACTIONABLE THIS WEEK</div>
+        {grid.slice(4, 6).concat(grid.slice(0, 1)).map((a, i) => (
+          <a class="story" href={`/${a.data.category}/${a.id}/`} style="display:flex; gap:0.8rem; padding:0.9rem 0; border-bottom:1px solid var(--line);">
+            <span class="mono" style="color:var(--blue); font-weight:700; font-size:0.85rem;">0{i + 1}</span>
+            <span class="st" style="font-size:0.92rem; font-weight:600; line-height:1.35;">{a.data.title}</span>
+          </a>
+        ))}
+      </div>
+
+      <div style="background:var(--bluebg); border-radius:6px; padding:1.2rem; margin-top:1.4rem;">
+        <div style="font-weight:700; font-size:0.95rem;">The execution desk</div>
+        <p style="color:#075985; font-size:0.85rem; margin:0.4rem 0 0.6rem;">Done-for-you Google visibility, bookings and AI agents for UK pharmacies.</p>
+        <a href="/services/" style="font-weight:700; font-size:0.85rem; color:var(--blue);">Brief me in →</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="wrap" style="margin-top:2.5rem; border-top:2px solid var(--navy); padding:1.2rem 1.5rem 2.5rem; display:flex; justify-content:space-between; font-size:0.8rem; color:var(--muted);">
+    <span>© 2026 Pharmacy Business Insights</span>
+    <a href="/previews/" style="color:var(--blue); font-weight:600;">← All six concepts</a>
+  </footer>
+</body>
+</html>

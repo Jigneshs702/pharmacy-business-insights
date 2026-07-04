@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const listed = articles.slice(0, 6);
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>The Quiet Luxury — homepage concept 5 | PBI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#f7f6f2; --ink:#2c2e2a; --dim:#6b6f66; --faintc:#9a9d94; --hair:#dcd9d0; --sage:#5a6e5a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:Inter,-apple-system,sans-serif; font-weight:300; line-height:1.7; }
+    .wrap { max-width:1000px; margin:0 auto; padding:0 1.75rem; }
+    a { text-decoration:none; color:inherit; }
+    .cell:hover .ct { color:var(--sage); }
+    nav a { font-size:0.85rem; color:var(--dim); letter-spacing:0.06em; }
+    nav a:hover { color:var(--ink); }
+    .lk { color:var(--sage); border-bottom:1px solid var(--sage); padding-bottom:2px; font-size:0.9rem; letter-spacing:0.04em; }
+    em.s { font-family:Georgia, serif; font-style:italic; color:var(--sage); }
+  </style>
+</head>
+<body>
+  <header class="wrap" style="display:flex; justify-content:space-between; align-items:center; padding-top:1.75rem;">
+    <span style="font-weight:500; letter-spacing:0.14em; font-size:0.95rem;">PBI<span style="color:var(--sage);">®</span></span>
+    <nav style="display:flex; gap:1.75rem;">
+      <a href="/private-services/">index</a>
+      <a href="/tools/profit-calculator/">calculator</a>
+      <a href="/services/">studio</a>
+      <a href="/newsletter/" style="color:var(--sage);">newsletter</a>
+    </nav>
+  </header>
+
+  <section class="wrap" style="padding-top:6rem; padding-bottom:5rem;">
+    <h1 style="font-size:clamp(2.2rem,5.5vw,3.8rem); line-height:1.12; font-weight:300; letter-spacing:-0.025em; max-width:700px; margin:0;">
+      the modern pharmacy is a <em class="s">portfolio</em> of profitable services.
+    </h1>
+    <p style="color:var(--dim); max-width:420px; margin:1.75rem 0 2.25rem; font-size:1rem;">
+      essays and playbooks on building one — private clinics, patient demand, and quiet automation. for UK pharmacy owners who think like owners.
+    </p>
+    <a class="lk" href="/private-services/">begin with the index</a>
+  </section>
+
+  <main style="border-top:1px solid var(--hair);">
+    <div class="wrap" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:0;">
+      {listed.map((a, i) => (
+        <a class="cell" href={`/${a.data.category}/${a.id}/`} style={`padding:2rem 1.75rem 2.25rem; border-bottom:1px solid var(--hair); ${i % 3 !== 2 ? 'border-right:1px solid var(--hair);' : ''}`}>
+          <div style="color:var(--faintc); font-size:0.8rem; letter-spacing:0.1em;">{String(i + 1).padStart(2, '0')}</div>
+          <h3 class="ct" style="font-weight:400; font-size:1.12rem; line-height:1.45; margin:0.7rem 0 0.5rem; letter-spacing:-0.01em; transition:color .15s;">{a.data.title}</h3>
+          <p style="color:var(--dim); font-size:0.87rem; margin:0;">{a.data.description.slice(0, 95)}…</p>
+        </a>
+      ))}
+    </div>
+  </main>
+
+  <section class="wrap" style="padding-top:4.5rem; padding-bottom:5rem; display:grid; grid-template-columns:1fr 1fr; gap:3rem;">
+    <div>
+      <div style="color:var(--faintc); font-size:0.8rem; letter-spacing:0.18em; text-transform:uppercase;">the instrument</div>
+      <h2 style="font-weight:300; font-size:1.6rem; letter-spacing:-0.02em; margin:0.8rem 0;">what could yours earn?</h2>
+      <p style="color:var(--dim); font-size:0.95rem; max-width:360px;">seven services. your numbers. one honest annual figure — in thirty seconds.</p>
+      <a class="lk" href="/tools/profit-calculator/">open the calculator</a>
+    </div>
+    <div>
+      <div style="color:var(--faintc); font-size:0.8rem; letter-spacing:0.18em; text-transform:uppercase;">the studio</div>
+      <h2 style="font-weight:300; font-size:1.6rem; letter-spacing:-0.02em; margin:0.8rem 0;">or have it built for you</h2>
+      <p style="color:var(--dim); font-size:0.95rem; max-width:360px;">google visibility, booking systems and AI agents — made quietly, for a few pharmacies at a time.</p>
+      <a class="lk" href="/services/">visit the studio</a>
+    </div>
+  </section>
+
+  <footer class="wrap" style="border-top:1px solid var(--hair); padding:1.5rem 1.75rem 2.75rem; display:flex; justify-content:space-between; font-size:0.8rem; color:var(--faintc);">
+    <span>© 2026 pharmacy business insights</span>
+    <a href="/previews/" style="color:var(--sage);">← all six concepts</a>
+  </footer>
+</body>
+</html>

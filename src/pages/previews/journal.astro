@@ -1,0 +1,98 @@
+---
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const lead = articles[0];
+const briefing = articles.slice(1, 5);
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>The Private Journal — homepage concept 3 | PBI</title>
+  <style>
+    :root { --bg:#14161a; --panel:#1b1e24; --line:#2a2d33; --gold:#c9a227; --cream:#e8e4da; --dim:#8a8d94; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--cream); font-family:Georgia,'Times New Roman',serif; line-height:1.7; }
+    .wrap { max-width:980px; margin:0 auto; padding:0 1.5rem; }
+    a { color:inherit; text-decoration:none; }
+    .kicker { font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.7rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--gold); font-weight:600; }
+    .item:hover h3 { color:var(--gold); }
+    .btn { display:inline-block; font-family:-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:0.9rem; background:var(--gold); color:var(--bg); padding:0.75rem 1.6rem; border-radius:3px; }
+    .btn:hover { background:#e0b94f; }
+    .btn-ghost { background:transparent; color:var(--cream); border:1px solid #4a4d54; }
+    .btn-ghost:hover { border-color:var(--gold); color:var(--gold); background:transparent; }
+    nav a { font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.85rem; color:var(--dim); }
+    nav a:hover { color:var(--gold); }
+  </style>
+</head>
+<body>
+  <header class="wrap" style="display:flex; justify-content:space-between; align-items:center; padding-top:1.4rem; padding-bottom:1.4rem; border-bottom:1px solid var(--line);">
+    <span style="font-size:1.15rem;">Pharmacy Business <em style="color:var(--gold);">Insights</em></span>
+    <nav style="display:flex; gap:1.6rem; align-items:center;">
+      <a href="/private-services/">The playbooks</a>
+      <a href="/tools/profit-calculator/">The calculator</a>
+      <a href="/services/">Private clients</a>
+      <a href="/newsletter/" style="color:var(--gold); border:1px solid var(--gold); padding:0.45rem 1rem; border-radius:3px;">Join the briefing</a>
+    </nav>
+  </header>
+
+  <section class="wrap" style="padding-top:4.5rem; padding-bottom:3.5rem;">
+    <div class="kicker">The owner's briefing · July 2026 edition</div>
+    <h1 style="font-size:clamp(2rem,5vw,3.3rem); line-height:1.15; font-weight:500; max-width:720px; margin:1rem 0 1.2rem;">Your dispensary pays the bills. These pages are about everything else.</h1>
+    <p style="color:var(--dim); font-size:1.15rem; max-width:560px; margin:0 0 2rem;">Quiet, numbers-led intelligence on private services, patient demand and AI — for UK pharmacy owners building something worth more than a contract.</p>
+    <div style="display:flex; gap:0.9rem; flex-wrap:wrap;">
+      <a class="btn" href={`/${lead.data.category}/${lead.id}/`}>Read this month's lead essay</a>
+      <a class="btn btn-ghost" href="/newsletter/">Join 2,000 owners — free</a>
+    </div>
+  </section>
+
+  <section class="wrap" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:1px; background:var(--line); border-top:1px solid var(--line); border-bottom:1px solid var(--line);">
+    {[
+      ['£85k', 'one travel clinic, one year'],
+      ['£60', 'per 25-minute ear wax appointment'],
+      ['£2,400', 'a weight-management patient’s year'],
+      ['24/7', 'an AI agent on your phone line'],
+    ].map(([n, l]) => (
+      <div style="background:var(--bg); padding:1.6rem 1.2rem;">
+        <div style="font-size:1.9rem; color:var(--gold);">{n}</div>
+        <div class="kicker" style="letter-spacing:0.12em; margin-top:0.4rem; color:var(--dim);">{l}</div>
+      </div>
+    ))}
+  </section>
+
+  <main class="wrap" style="display:grid; grid-template-columns:1.5fr 1fr; gap:3rem; padding-top:3rem;">
+    <section>
+      <div class="kicker" style="margin-bottom:1.2rem;">In this edition</div>
+      {briefing.map((a, i) => (
+        <a class="item" href={`/${a.data.category}/${a.id}/`} style="display:flex; gap:1.4rem; padding:1.3rem 0; border-top:1px solid var(--line); align-items:baseline;">
+          <span style="font-size:1.4rem; color:var(--gold); font-style:italic; min-width:2.2rem;">{String(i + 2).padStart(2, '0')}</span>
+          <span>
+            <h3 style="font-size:1.25rem; font-weight:500; margin:0; line-height:1.35; transition:color .15s;">{a.data.title}</h3>
+            <p style="font-family:-apple-system,'Segoe UI',sans-serif; color:var(--dim); font-size:0.9rem; margin:0.4rem 0 0;">{a.data.description}</p>
+          </span>
+        </a>
+      ))}
+    </section>
+    <aside>
+      <div style="background:var(--panel); border:1px solid var(--line); border-radius:4px; padding:1.8rem;">
+        <div class="kicker">The instrument</div>
+        <h3 style="font-size:1.3rem; font-weight:500; margin:0.7rem 0;">The private services profit calculator</h3>
+        <p style="color:var(--dim); font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.92rem;">Seven services, your numbers, one annual figure. What most owners see surprises them.</p>
+        <a class="btn" href="/tools/profit-calculator/" style="margin-top:0.5rem;">Run your numbers</a>
+      </div>
+      <div style="border:1px solid var(--line); border-radius:4px; padding:1.8rem; margin-top:1.2rem;">
+        <div class="kicker">Private clients</div>
+        <p style="color:var(--dim); font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.92rem; margin:0.7rem 0;">I take on a small number of pharmacies each quarter and build their booking engine personally.</p>
+        <a href="/services/" style="font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.9rem; color:var(--gold); font-weight:600;">Enquire discreetly →</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="wrap" style="margin-top:3.5rem; border-top:1px solid var(--line); padding:1.4rem 1.5rem 2.5rem; display:flex; justify-content:space-between; font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.8rem; color:var(--dim);">
+    <span>© 2026 Pharmacy Business Insights</span>
+    <a href="/previews/" style="color:var(--gold);">← All six concepts</a>
+  </footer>
+</body>
+</html>

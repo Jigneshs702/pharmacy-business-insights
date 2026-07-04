@@ -1,0 +1,93 @@
+---
+import { getCollection } from 'astro:content';
+const articles = (await getCollection('articles')).sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+const lead = articles[0];
+const rail = articles.slice(1, 4);
+const rest = articles.slice(4, 7);
+const today = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date());
+---
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>The Broadsheet — homepage concept 1 | PBI</title>
+  <style>
+    :root { --paper:#faf7f0; --ink:#1a1a18; --rule:#d8d2c4; --ox:#8a2020; --muted:#57534a; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:Georgia, 'Times New Roman', serif; line-height:1.65; }
+    .wrap { max-width:1080px; margin:0 auto; padding:0 1.5rem; }
+    .kicker { font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--ox); font-weight:700; }
+    a { color:inherit; text-decoration:none; }
+    a:hover h2, a:hover h3, a:hover .hl { text-decoration:underline; text-underline-offset:4px; text-decoration-thickness:1px; }
+    .btn { display:inline-block; font-family:-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:0.95rem; background:var(--ink); color:var(--paper); padding:0.7rem 1.5rem; }
+    .btn:hover { background:var(--ox); }
+    .rule-top { border-top:1px solid var(--rule); padding-top:0.9rem; }
+    nav a { font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.9rem; color:var(--muted); }
+    nav a:hover { color:var(--ox); }
+  </style>
+</head>
+<body>
+  <div class="wrap" style="text-align:center; padding-top:2.2rem;">
+    <div style="display:flex; justify-content:space-between; font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.75rem; color:var(--muted); border-bottom:1px solid var(--rule); padding-bottom:0.6rem;">
+      <span>{today}</span>
+      <span>For UK pharmacy owners</span>
+      <span><a href="/newsletter/" style="color:var(--ox); font-weight:700;">Subscribe free</a></span>
+    </div>
+    <h1 style="font-size:clamp(2.4rem,6vw,4rem); margin:1.6rem 0 0.4rem; font-weight:500; letter-spacing:0.01em;">Pharmacy Business Insights</h1>
+    <div class="kicker" style="margin-bottom:1.4rem;">The profit journal for UK pharmacy owners · Est. 2026</div>
+    <div style="border-top:3px double var(--ink); border-bottom:1px solid var(--rule);">
+      <nav style="display:flex; justify-content:center; gap:2rem; padding:0.7rem 0; flex-wrap:wrap;">
+        <a href="/private-services/">Private services</a>
+        <a href="/services/">Growth studio</a>
+        <a href="/tools/profit-calculator/">The calculator</a>
+        <a href="/about/">About</a>
+        <a href="/newsletter/">Newsletter</a>
+      </nav>
+    </div>
+  </div>
+
+  <main class="wrap" style="display:grid; grid-template-columns:1.6fr 1fr; gap:2.5rem; padding-top:2.5rem;">
+    <section style="border-right:1px solid var(--rule); padding-right:2.5rem;">
+      <span class="kicker">The big read</span>
+      <a href={`/${lead.data.category}/${lead.id}/`}>
+        <h2 style="font-size:clamp(1.8rem,3.6vw,2.6rem); line-height:1.15; margin:0.5rem 0 0.8rem; font-weight:500;">{lead.data.title}</h2>
+      </a>
+      <p style="font-size:1.1rem; color:var(--muted); margin:0 0 1.2rem;">{lead.data.description}</p>
+      <a class="btn" href={`/${lead.data.category}/${lead.id}/`}>Read the analysis</a>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.8rem; border-top:3px double var(--ink); padding-top:1.4rem;">
+        {rest.map((a) => (
+          <a href={`/${a.data.category}/${a.id}/`}>
+            <span class="kicker" style="font-size:0.62rem;">{a.data.categoryTitle}</span>
+            <h3 class="hl" style="font-size:1.02rem; line-height:1.3; margin:0.4rem 0; font-weight:500;">{a.data.title}</h3>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <aside>
+      <span class="kicker">Also in this edition</span>
+      <div style="display:grid; gap:1.1rem; margin-top:0.8rem;">
+        {rail.map((a, i) => (
+          <a href={`/${a.data.category}/${a.id}/`} class={i > 0 ? 'rule-top' : ''}>
+            <h3 class="hl" style="font-size:1.1rem; line-height:1.3; margin:0; font-weight:500;">{a.data.title}</h3>
+            <p style="font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.85rem; color:var(--muted); margin:0.35rem 0 0;">{a.data.description.slice(0, 90)}…</p>
+          </a>
+        ))}
+      </div>
+      <div style="background:var(--ink); color:var(--paper); padding:1.5rem; margin-top:2rem;">
+        <span class="kicker" style="color:#e0b94f;">The numbers</span>
+        <p style="font-size:1.05rem; margin:0.5rem 0 1rem; line-height:1.5;">What could private services add to <em>your</em> pharmacy? Model it in 30 seconds.</p>
+        <a href="/tools/profit-calculator/" style="font-family:-apple-system,'Segoe UI',sans-serif; font-weight:700; font-size:0.9rem; color:#e0b94f;">Open the profit calculator →</a>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="wrap" style="margin-top:3rem; border-top:3px double var(--ink); padding:1.2rem 1.5rem 2.5rem; display:flex; justify-content:space-between; font-family:-apple-system,'Segoe UI',sans-serif; font-size:0.8rem; color:var(--muted); flex-wrap:wrap; gap:0.5rem;">
+    <span>© 2026 Pharmacy Business Insights</span>
+    <span><a href="/previews/" style="color:var(--ox);">← All six concepts</a></span>
+  </footer>
+</body>
+</html>
