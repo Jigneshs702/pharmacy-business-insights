@@ -1,0 +1,23 @@
+{
+  "skill_name": "pharmacy-prospect-research",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Can you research Dervis Gurol, the pharmacist owner of Healthy-U Pharmacy in Saltdean, East Sussex? I've got a Pharmapresence sales call with him next week and want talking points.",
+      "expected_output": "A sales-prep briefing with sections for identity/role, any funding-advocacy hook if one exists, private services already offered, review reputation, and specific digital-presence gaps (website age/platform, booking fragmentation across third-party platforms, local competitor check for at least one profitable service) each tied to a specific Pharmapresence service. No fabricated specifics (GPhC numbers, ages, review counts) that weren't actually found via search. Sources cited.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "I've got a call booked next week with whoever runs Thorpe Pharmacy in Wakefield (thorpepharmacy.org) about our services — can you dig up what you can on them before I call?",
+      "expected_output": "Since only the pharmacy name is given (not an owner name), the briefing should first identify the owner/superintendent pharmacist via search before proceeding. Thorpe Pharmacy appears to be a small independent group with limited news/advocacy footprint, so the output should honestly reflect thin findings on the advocacy-hook front rather than inventing a funding-cuts narrative, while still covering services offered and digital-presence gaps where evidence exists. Sources cited; no fabricated GPhC numbers or quotes.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Can you research Sanjay Doegar, the pharmacist owner of Ruislip Manor Pharmacy — I want to find anything that could help me when I am talking to him about the services that Pharmapresence can offer his pharmacy.",
+      "expected_output": "A sales-prep briefing covering: his role as owner/superintendent pharmacist and Arachem Health Limited; his public funding-advocacy story (Boris Johnson's 2020 pharmacy visit, comments on the PM about needing investment, and/or later public comments on funding cuts forcing diversification); the private services Ruislip Manor Pharmacy already offers (travel/yellow fever clinic, weight loss/GLP-1, ear wax microsuction); strong review reputation (~4.7 stars); and concrete digital gaps such as booking fragmented across third-party platforms and/or a local ear-wax-removal competitor (Cleaner Ears) outranking them nearby. Sources cited; a caveat that WebFetch was blocked on several sources so findings lean on search snippets.",
+      "files": []
+    }
+  ]
+}
