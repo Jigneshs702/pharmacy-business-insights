@@ -59,6 +59,16 @@ Write the briefing directly in the chat response (not a separate file, unless th
 
 Close with a short, honest caveat if any of the direct-fetch sources were blocked and the findings rely on search snippets rather than the live page — the user should know to sanity-check anything time-sensitive (current promotions, exact current pricing) by looking at the live site themselves before the call.
 
+## Also produce a Word doc
+
+The user keeps these briefings as reports, so alongside the chat response, always generate a `.docx` copy too — don't wait to be asked.
+
+1. Write the same content you're putting in the chat response into a JSON file matching the shape `scripts/build_briefing_docx.cjs` expects (see the comment at the top of that script) — one entry per section, using `**bold**`/`*italic*` inline where you'd naturally emphasize something.
+2. Run the script: `docx` (the npm package) needs to be resolvable. If a working/scratch directory already has it installed, reuse that; otherwise `npm install docx` once in a scratch directory, then invoke with `NODE_PATH=<that dir>/node_modules node scripts/build_briefing_docx.cjs input.json "<Owner Name> - <Pharmacy Name>.docx"` — Node resolves `require()` relative to the script's own location, not the caller's cwd, which is why `NODE_PATH` (not just installing docx nearby) is needed.
+3. Name the output file `<Owner Name> - <Pharmacy Name>.docx`, matching the naming convention already in use.
+4. Visual verification (converting to PDF/images per the docx skill's normal workflow) is worth attempting but isn't always available — if the conversion tooling fails in the current environment, don't block on it; say so plainly rather than silently skipping the check.
+5. Deliver the file with whatever file-send tool is available in the current environment (e.g. `SendUserFile`) — the user is very likely working from a remote session and will need to save the file into their own local reports folder themselves, since a remote session normally can't write directly to the user's local filesystem. Say that plainly if it applies, rather than implying the file was saved to their machine directly.
+
 ## What not to do
 
 Don't fabricate specifics that didn't turn up in search — no invented GPhC numbers, ages, review counts, or quotes. If a step comes up empty, say so in one line or omit the section; don't pad it with generic filler about "the importance of community pharmacy" that could apply to any pharmacy in the country. The whole value of this briefing is that it's specific to *this* pharmacy — generic content defeats the purpose.
