@@ -162,3 +162,7 @@ label { font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 0.3
 
 .muted { color: var(--muted); }
 .small { font-size: 0.95rem; }
+
+@media (max-width: 720px) {
+  .main-nav a:not(.btn) { display: none; }
+}

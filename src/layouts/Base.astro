@@ -2,6 +2,7 @@
 import '../styles/global.css';
 import { SITE, AUTHOR, NEWSLETTER } from '../config/site';
 import NewsletterBox from '../components/NewsletterBox.astro';
+import SideMenu from '../components/SideMenu.astro';
 
 interface Props {
   title: string;
@@ -55,13 +56,14 @@ const schemas = [orgSchema, ...(schema ? (Array.isArray(schema) ? schema : [sche
         <a href="/" style="text-decoration:none; font-weight:800; font-size:1.35rem; letter-spacing:-0.03em; white-space:nowrap;">
           <span style="color:var(--blue);">Pharmacy Business</span> <span style="color:var(--yellow-dark);">Insights</span>
         </a>
-        <nav aria-label="Main" style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap; font-size:1rem;">
+        <nav aria-label="Main" class="main-nav" style="display:flex; gap:1.5rem; align-items:center; flex-wrap:wrap; font-size:1rem;">
           <a href="/private-services/" style="text-decoration:none; color:var(--muted); font-weight:600;">Private services</a>
           <a href="/tools/profit-calculator/" style="text-decoration:none; color:var(--muted); font-weight:600;">Profit calculator</a>
           <a href="/services/" style="text-decoration:none; color:var(--muted); font-weight:600;">Work with me</a>
           <a href="/about/" style="text-decoration:none; color:var(--muted); font-weight:600;">About</a>
           <a href="/newsletter/" class="btn" style="padding:0.55rem 1.2rem; font-size:0.95rem;">Get the newsletter</a>
         </nav>
+        <SideMenu />
       </div>
     </header>
 
