@@ -1,0 +1,139 @@
+---
+import { getCollection } from 'astro:content';
+import { SITE } from '../config/site';
+
+const articles = (await getCollection('articles')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+const currentPath = Astro.url.pathname;
+const linkStyle = (href: string, weight = 600) =>
+  `display:block; padding:0.5rem 0; font-size:0.95rem; font-weight:${weight}; text-decoration:none; line-height:1.35; color:${currentPath === href ? 'var(--blue-dark)' : 'var(--navy)'};`;
+const subLinkStyle = (href: string) =>
+  `display:block; padding:0.4rem 0; font-size:0.88rem; text-decoration:none; line-height:1.35; color:${currentPath === href ? 'var(--blue-dark)' : 'var(--muted)'};`;
+---
+
+<button
+  id="sidebar-toggle"
+  aria-label="Open site menu"
+  aria-expanded="false"
+  aria-controls="sidebar"
+  class="sidebar-toggle-btn"
+  style="display:none; align-items:center; gap:0.4rem; background:#fff; border:1.5px solid var(--line); border-radius:8px; padding:0.5rem 0.7rem; cursor:pointer; color:var(--navy);"
+>
+  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <span style="font-size:0.85rem; font-weight:700;">Menu</span>
+</button>
+
+<div id="sidebar-overlay" hidden style="position:fixed; inset:0; background:rgba(15,23,42,0.45); z-index:69;"></div>
+
+<aside id="sidebar" aria-label="Site navigation" class="sidebar">
+  <div style="display:flex; align-items:center; justify-content:space-between;">
+    <a href="/" style="text-decoration:none; font-weight:800; font-size:1.15rem; letter-spacing:-0.03em; line-height:1.25;">
+      <span style="color:var(--blue);">Pharmacy Business</span> <span style="color:var(--yellow-dark);">Insights</span>
+    </a>
+    <button id="sidebar-close" aria-label="Close site menu" class="sidebar-close-btn" style="display:none; background:none; border:none; cursor:pointer; padding:0.3rem; color:var(--navy);">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <nav style="margin-top:1.75rem;">
+    <a href="/" style={linkStyle('/', 700)}>Home</a>
+
+    <div style="margin-top:1.1rem; font-size:0.68rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint);">Private services</div>
+    <a href="/private-services/" style={linkStyle('/private-services/', 700)}>Playbook hub</a>
+    <div style="display:grid; gap:0.1rem; margin:0.1rem 0 0.3rem; border-left:2px solid var(--line); padding-left:0.7rem;">
+      {articles.map((a) => {
+        const href = `/${a.data.category}/${a.id}/`;
+        return <a href={href} style={subLinkStyle(href)}>{a.data.title}</a>;
+      })}
+    </div>
+
+    <div style="margin-top:1.1rem; font-size:0.68rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint);">Free tools</div>
+    <a href="/tools/profit-calculator/" style={linkStyle('/tools/profit-calculator/')}>Profit calculator</a>
+
+    <div style="margin-top:1.1rem; font-size:0.68rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint);">Work with me</div>
+    <a href="/services/" style={linkStyle('/services/', 700)}>All services</a>
+    <div style="display:grid; gap:0.1rem; margin:0.1rem 0 0.3rem; border-left:2px solid var(--line); padding-left:0.7rem;">
+      <a href="/services/bookings-booster/" style={subLinkStyle('/services/bookings-booster/')}>Bookings booster</a>
+      <a href="/services/google-business-profile/" style={subLinkStyle('/services/google-business-profile/')}>Google Business Profile</a>
+      <a href="/services/pharmacy-websites/" style={subLinkStyle('/services/pharmacy-websites/')}>Pharmacy websites</a>
+      <a href="/services/ai-agents/" style={subLinkStyle('/services/ai-agents/')}>AI agents</a>
+    </div>
+
+    <div style="margin-top:1.1rem; font-size:0.68rem; font-weight:800; letter-spacing:0.08em; text-transform:uppercase; color:var(--faint);">Site</div>
+    <a href="/newsletter/" style={linkStyle('/newsletter/')}>Newsletter</a>
+    <a href="/about/" style={linkStyle('/about/')}>About</a>
+    <a href="/contact/" style={linkStyle('/contact/')}>Contact</a>
+    <a href="/editorial-policy/" style={linkStyle('/editorial-policy/')}>Editorial policy</a>
+
+    <a href="/newsletter/" class="btn" style="display:block; text-align:center; margin-top:1.5rem;">Get the newsletter</a>
+  </nav>
+
+  <div style="margin-top:2rem; padding-top:1rem; border-top:1px solid var(--line); font-size:0.78rem; color:var(--faint);">
+    © {new Date().getFullYear()} {SITE.name}
+  </div>
+</aside>
+
+<style>
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 264px;
+    background: #fff;
+    border-right: 1px solid var(--line);
+    overflow-y: auto;
+    padding: 1.5rem 1.25rem 2rem;
+    z-index: 70;
+    transition: transform 0.25s ease;
+  }
+
+  @media (max-width: 900px) {
+    .sidebar-toggle-btn {
+      display: inline-flex !important;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 71;
+      box-shadow: 0 4px 14px -6px rgba(2,6,23,0.25);
+    }
+    .sidebar-close-btn { display: inline-flex !important; }
+    .sidebar { transform: translateX(-100%); box-shadow: 8px 0 30px -12px rgba(2,6,23,0.35); }
+    .sidebar.open { transform: translateX(0); }
+  }
+</style>
+
+<script>
+  const toggleBtn = document.getElementById('sidebar-toggle');
+  const closeBtn = document.getElementById('sidebar-close');
+  const overlay = document.getElementById('sidebar-overlay');
+  const sidebar = document.getElementById('sidebar');
+
+  function openSidebar() {
+    if (!sidebar || !overlay || !toggleBtn) return;
+    sidebar.classList.add('open');
+    overlay.hidden = false;
+    toggleBtn.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeSidebar() {
+    if (!sidebar || !overlay || !toggleBtn) return;
+    sidebar.classList.remove('open');
+    toggleBtn.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    setTimeout(() => { if (overlay) overlay.hidden = true; }, 250);
+  }
+
+  toggleBtn?.addEventListener('click', openSidebar);
+  closeBtn?.addEventListener('click', closeSidebar);
+  overlay?.addEventListener('click', closeSidebar);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSidebar(); });
+  sidebar?.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeSidebar));
+
+  // Reset state when resizing back to desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900) closeSidebar();
+  });
+</script>
