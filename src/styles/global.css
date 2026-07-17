@@ -163,8 +163,6 @@ label { font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 0.3
 .muted { color: var(--muted); }
 .small { font-size: 0.95rem; }
 
-.main-col { margin-left: 264px; min-width: 0; }
-
-@media (max-width: 900px) {
-  .main-col { margin-left: 0; padding-top: 3.5rem; }
+@media (max-width: 720px) {
+  .main-nav a:not(.btn) { display: none; }
 }
